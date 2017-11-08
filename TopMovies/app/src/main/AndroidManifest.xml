@@ -18,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MovieDetail"
+            android:parentActivityName="com.example.theodore.topmovies.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.theodore.topmovies.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

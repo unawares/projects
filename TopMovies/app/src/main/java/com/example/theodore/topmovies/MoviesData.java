@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by Theodore on 11/7/17.
  */
@@ -20,7 +23,7 @@ class Movie implements Parcelable {
     public String poster_path;
     public String original_language;
     public String original_title;
-    public int[] genre_ids;
+    //public int[] genre_ids;
     public String backdrop_path;
     public boolean adult;
     public String overview;
@@ -37,7 +40,7 @@ class Movie implements Parcelable {
         out.writeString(poster_path);
         out.writeString(original_language);
         out.writeString(original_title);
-        out.writeIntArray(genre_ids);
+        //out.writeIntArray(genre_ids);
         out.writeString(backdrop_path);
         out.writeInt((adult) ? 1 : 0);
         out.writeString(overview);
@@ -54,7 +57,7 @@ class Movie implements Parcelable {
         poster_path = in.readString();
         original_language = in.readString();
         original_title = in.readString();
-        in.readIntArray(genre_ids);
+        //in.readIntArray(genre_ids);
         backdrop_path = in.readString();
         adult = in.readInt() == 1;
         overview = in.readString();
@@ -62,7 +65,6 @@ class Movie implements Parcelable {
     }
 
     public Movie() {
-        // Normal actions performed by class, since this is still a normal object!
     }
 
     @Override
@@ -72,15 +74,11 @@ class Movie implements Parcelable {
 
     public static final Parcelable.Creator<Movie> CREATOR
             = new Parcelable.Creator<Movie>() {
-
-        // This simply calls our new constructor (typically private) and
-        // passes along the unmarshalled `Parcel`, and then returns the new object!
         @Override
         public Movie createFromParcel(Parcel in) {
             return new Movie(in);
         }
 
-        // We just need to copy this and change the type to match our class.
         @Override
         public Movie[] newArray(int size) {
             return new Movie[size];
@@ -99,18 +97,18 @@ public class MoviesData implements Parcelable {
         out.writeInt(page);
         out.writeInt(total_results);
         out.writeInt(total_pages);
-        out.writeTypedArray(results, flags);
+        out.writeParcelableArray(results, flags);
     }
 
     private MoviesData(Parcel in) {
         page = in.readInt();
         total_results = in.readInt();
         total_pages = in.readInt();
-        in.readTypedArray(results, Movie.CREATOR);
+        Parcelable[] res = in.readParcelableArray(Movie[].class.getClassLoader());
+        results = Arrays.copyOf(res, res.length, Movie[].class);
     }
 
     public MoviesData() {
-        // Normal actions performed by class, since this is still a normal object!
     }
 
     @Override
@@ -120,15 +118,11 @@ public class MoviesData implements Parcelable {
 
     public static final Parcelable.Creator<MoviesData> CREATOR
             = new Parcelable.Creator<MoviesData>() {
-
-        // This simply calls our new constructor (typically private) and
-        // passes along the unmarshalled `Parcel`, and then returns the new object!
         @Override
         public MoviesData createFromParcel(Parcel in) {
             return new MoviesData(in);
         }
 
-        // We just need to copy this and change the type to match our class.
         @Override
         public MoviesData[] newArray(int size) {
             return new MoviesData[size];

@@ -1,13 +1,21 @@
 package com.example.theodore.topmovies;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClicked {
     private ArrayList<Movie> movies = new ArrayList<>();
 
     private RecyclerView recyclerView;
@@ -34,16 +42,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         moviesServer.nextPage();
-        startActivity(getIntent());
+        mAdapter.setOnClick(this);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    public void onItemClick(MoviesAdapter.MyViewHolder holder, int position) {
+        Intent intent = new Intent(MainActivity.this, MovieDetail.class);
+        Movie movie = movies.get(position);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
     }
 }

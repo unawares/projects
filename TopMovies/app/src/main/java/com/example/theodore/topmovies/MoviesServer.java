@@ -1,6 +1,8 @@
 package com.example.theodore.topmovies;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -27,8 +29,8 @@ public class MoviesServer {
     private int page;
     private String type;
     private MoviesAdapter adapter;
-    private ArrayList<MoviesData> moviesDataArrayList;
-    private ArrayList<Movie> movies;
+    public ArrayList<MoviesData> moviesDataArrayList;
+    public ArrayList<Movie> movies;
 
     public MoviesServer(Context context, MoviesAdapter adapter, ArrayList<Movie> movies, String type) {
         this.requestQueue = Volley.newRequestQueue(context);
